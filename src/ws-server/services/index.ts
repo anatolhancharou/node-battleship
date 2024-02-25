@@ -38,8 +38,9 @@ export const updateWinners = (winners: Winner[], winnerName?: string): void => {
       player.wins += 1;
     } else {
       winners.push({ name: winnerName, wins: 1 });
-      winners.sort((a, b) => b.wins - a.wins);
     }
+
+    winners.sort((a, b) => b.wins - a.wins);
   }
 
   webSocketServer.clients.forEach((socket) => {
