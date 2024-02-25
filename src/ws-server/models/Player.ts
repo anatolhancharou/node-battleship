@@ -52,4 +52,10 @@ export class Player {
   getDestroyedShipsCount(): number {
     return this.destroyedShipsCount;
   }
+
+  reset(): void {
+    this.ships = [];
+    this.attacks = [];
+    this.destroyedShipsCount = 0;
+  }
 }

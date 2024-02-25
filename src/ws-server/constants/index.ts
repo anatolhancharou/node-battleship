@@ -26,6 +26,7 @@ export enum ShotStatuses {
 
 export const MIN_CELL_COORDINATE = 0;
 export const MAX_CELL_COORDINATE = 9;
+export const TOTAL_SHIPS_COUNT = 10;
 
 export const INVALID_PASSWORD_ERROR = 'Invalid password';
 export const CREATE_ROOM_ERROR =

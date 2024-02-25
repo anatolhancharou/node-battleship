@@ -5,8 +5,10 @@ import {
   getUniqueNumber,
   sendMessage,
 } from '../helpers';
-import { ActionTypes, ShotStatuses } from '../constants';
+import { ActionTypes, ShotStatuses, TOTAL_SHIPS_COUNT } from '../constants';
 import { Position, Ship } from '../types';
+import { updateWinners } from '../services';
+import { database } from '..';
 
 export class Game {
   id: number;
@@ -143,6 +145,10 @@ export class Game {
         });
 
         this.currentPlayer.addDestroyedShipsCount();
+
+        if (this.checkIsGameOver()) {
+          return this.finishGame(this.currentPlayer);
+        }
       } else if (enemyShip) {
         status = ShotStatuses.SHOT;
       } else {
@@ -195,5 +201,35 @@ export class Game {
   randomAttack(playedId: number): void {
     const randomShot: Position = this.generateRandomAttack();
     this.attack(playedId, randomShot);
+  }
+
+  private checkIsGameOver(): boolean {
+    return this.currentPlayer.getDestroyedShipsCount() === TOTAL_SHIPS_COUNT;
+  }
+
+  private finishGame(winner: Player): void {
+    this.players.forEach((player) => {
+      player.socket &&
+        sendMessage(
+          player.socket,
+          JSON.stringify({
+            type: ActionTypes.FINISH,
+            data: JSON.stringify({
+              winPlayer: winner.id,
+            }),
+            id: 0,
+          })
+        );
+
+      player.reset();
+    });
+
+    updateWinners(database.winners, winner.name);
+    database.rooms.delete(this.id);
+  }
+
+  loseGame(playerId: number): void {
+    const winner = this.players.find((player) => player.id !== playerId);
+    winner && this.finishGame(winner);
   }
 }

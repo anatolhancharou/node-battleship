@@ -1,6 +1,6 @@
 import { ActionTypes } from '../constants';
-import { RoomData, Winner } from '../types';
-import { Game, Player } from '../models';
+import { GameWebSocket, RoomData, Winner } from '../types';
+import { Database, Game, Player } from '../models';
 import { webSocketServer } from 'ws-server';
 import { sendMessage } from '../helpers';
 
@@ -52,4 +52,22 @@ export const updateWinners = (winners: Winner[], winnerName?: string): void => {
       })
     );
   });
+};
+
+export const closeSocket = (
+  socket: GameWebSocket,
+  rooms: Database['rooms']
+): void => {
+  const currentRoom = Array.from(rooms.values()).find((room) => {
+    return room.players.some((player) => player.id === socket.index);
+  });
+
+  if (currentRoom?.players.length === 2) {
+    currentRoom.loseGame(socket.index);
+  } else if (currentRoom) {
+    rooms.delete(currentRoom.id);
+    updateRoom(rooms);
+  }
+
+  console.log(`Client ${socket.index} disconnected!`);
 };
