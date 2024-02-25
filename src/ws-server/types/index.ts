@@ -60,3 +60,5 @@ export interface AttackData {
   y: number;
   indexPlayer: number;
 }
+
+export interface RandomAttackData extends Omit<AttackData, 'x' | 'y'> {}

@@ -3,6 +3,7 @@ import {
   AttackData,
   GameWebSocket,
   IoMessage,
+  RandomAttackData,
   ShipsRequestData,
 } from '../types';
 import { ActionTypes } from '../constants';
@@ -58,6 +59,9 @@ export const handleClientMessages = (
     }
 
     case ActionTypes.RANDOM_ATTACK: {
+      const { indexPlayer, gameId } = JSON.parse(data) as RandomAttackData;
+      const currentGame = database.rooms.get(gameId);
+      currentGame?.randomAttack(indexPlayer);
       break;
     }
   }

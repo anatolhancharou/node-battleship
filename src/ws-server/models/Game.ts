@@ -1,5 +1,10 @@
 import { Player } from './Player';
-import { getSurroundShipCells, getUniqueNumber, sendMessage } from '../helpers';
+import {
+  getRandomCoordinate,
+  getSurroundShipCells,
+  getUniqueNumber,
+  sendMessage,
+} from '../helpers';
 import { ActionTypes, ShotStatuses } from '../constants';
 import { Position, Ship } from '../types';
 
@@ -172,5 +177,23 @@ export class Game {
           })
         );
     });
+  }
+
+  private generateRandomAttack(): Position {
+    const shot: Position = {
+      x: getRandomCoordinate(),
+      y: getRandomCoordinate(),
+    };
+
+    if (this.checkIsShotInvalid(shot)) {
+      return this.generateRandomAttack();
+    }
+
+    return shot;
+  }
+
+  randomAttack(playedId: number): void {
+    const randomShot: Position = this.generateRandomAttack();
+    this.attack(playedId, randomShot);
   }
 }

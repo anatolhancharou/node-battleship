@@ -78,3 +78,7 @@ export const getSurroundShipCells = (ship: Ship): Position[] => {
 
   return surroundCells;
 };
+
+export const getRandomCoordinate = (): number => {
+  return Math.floor(Math.random() * 10);
+};
