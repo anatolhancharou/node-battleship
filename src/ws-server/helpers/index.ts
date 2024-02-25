@@ -1,3 +1,6 @@
+import WebSocket from 'ws';
+import { GameWebSocket } from '../types';
+
 const generatedNumbers = new Set<number>();
 
 export const getUniqueNumber = (): number => {
@@ -9,4 +12,16 @@ export const getUniqueNumber = (): number => {
 
   generatedNumbers.add(currentNumber);
   return currentNumber;
+};
+
+export const logMessage = (msg: string, isResponse?: boolean): void => {
+  console.log(`${isResponse ? 'Outgoing' : 'Incoming'} message: ${msg}`);
+};
+
+export const sendMessage = (
+  ws: GameWebSocket | WebSocket,
+  data: string
+): void => {
+  ws.send(data);
+  logMessage(data, true);
 };
