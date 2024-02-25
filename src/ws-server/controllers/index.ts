@@ -4,6 +4,7 @@ import { ActionTypes } from '../constants';
 import { logMessage } from '../helpers';
 import { Database } from '../models/Database';
 import { handleLogin } from './login';
+import { handleRoomCreation } from './room-creation';
 
 export const handleClientMessages = (
   message: RawData,
@@ -20,10 +21,12 @@ export const handleClientMessages = (
     }
 
     case ActionTypes.CREATE_ROOM: {
+      handleRoomCreation(ws, database, false);
       break;
     }
 
     case ActionTypes.SINGLE_PLAY: {
+      handleRoomCreation(ws, database, true);
       break;
     }
 
