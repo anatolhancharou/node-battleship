@@ -30,3 +30,26 @@ export interface RoomData {
   roomId: number;
   roomUsers: RoomUser[];
 }
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface Ship {
+  position: Position;
+  direction: boolean;
+  length: number;
+  type: 'small' | 'medium' | 'large' | 'huge';
+}
+
+export interface ShipsRequestData {
+  gameId: number;
+  ships: Ship[];
+  indexPlayer: number;
+}
+
+export interface ExtendedShip extends Ship {
+  cells: Position[];
+  left: number;
+}

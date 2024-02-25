@@ -1,6 +1,7 @@
 import { Player } from './Player';
 import { getUniqueNumber, sendMessage } from '../helpers';
 import { ActionTypes } from '../constants';
+import { Ship } from '../types';
 
 export class Game {
   id: number;
@@ -37,5 +38,10 @@ export class Game {
           );
       });
     }
+  }
+
+  addShips(playerId: number, ships: Ship[]): void {
+    const player = this.players.find((user) => user.id === playerId);
+    player && !player.ships.length && player.setShips(ships);
   }
 }
