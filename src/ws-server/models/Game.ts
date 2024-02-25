@@ -9,6 +9,7 @@ import { ActionTypes, ShotStatuses, TOTAL_SHIPS_COUNT } from '../constants';
 import { Position, Ship } from '../types';
 import { updateWinners } from '../services';
 import { database } from '..';
+import { Bot } from './Bot';
 
 export class Game {
   id: number;
@@ -21,6 +22,8 @@ export class Game {
     this.players = [firstPlayer];
     this.currentPlayer = firstPlayer;
     this.isSinglePlay = isSinglePlay;
+
+    isSinglePlay && this.addPlayer(new Bot());
   }
 
   addPlayer(player: Player): void {
@@ -90,6 +93,10 @@ export class Game {
           })
         );
     });
+
+    if (this.isSinglePlay && this.currentPlayer !== this.players[0]) {
+      this.randomAttack(this.currentPlayer.id);
+    }
   }
 
   private getNextPlayer(): Player {

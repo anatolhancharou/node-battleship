@@ -14,7 +14,7 @@ export class Player {
     name: string,
     password: string,
     id: number,
-    socket: GameWebSocket
+    socket?: GameWebSocket
   ) {
     this.name = name;
     this.password = password;
