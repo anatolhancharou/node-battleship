@@ -8,20 +8,22 @@ import {
 import { ActionTypes, ShotStatuses, TOTAL_SHIPS_COUNT } from '../constants';
 import { Position, Ship } from '../types';
 import { updateWinners } from '../services';
-import { database } from '..';
 import { Bot } from './Bot';
+import { Database } from './Database';
 
 export class Game {
   id: number;
   players: Player[];
-  currentPlayer: Player;
-  isSinglePlay: boolean;
+  private currentPlayer: Player;
+  private isSinglePlay: boolean;
+  private database: Database;
 
-  constructor(firstPlayer: Player, isSinglePlay: boolean) {
+  constructor(firstPlayer: Player, database: Database, isSinglePlay: boolean) {
     this.id = getUniqueNumber();
     this.players = [firstPlayer];
     this.currentPlayer = firstPlayer;
     this.isSinglePlay = isSinglePlay;
+    this.database = database;
 
     isSinglePlay && this.addPlayer(new Bot());
   }
@@ -33,7 +35,7 @@ export class Game {
     }
   }
 
-  checkCreateGame(): void {
+  private checkCreateGame(): void {
     if (this.players.length === 2) {
       this.players.forEach((player) => {
         player.socket &&
@@ -58,7 +60,7 @@ export class Game {
     this.checkStartGame();
   }
 
-  checkStartGame(): void {
+  private checkStartGame(): void {
     if (this.players.every((player) => player.ships.length)) {
       this.players.forEach((player) => {
         player.socket &&
@@ -148,7 +150,7 @@ export class Game {
 
         surroundCells.forEach((cell) => {
           this.currentPlayer.addAttack(cell);
-          this.sendAttackResult({ x: cell.x, y: cell.y }, ShotStatuses.OTHER);
+          this.sendAttackResult({ x: cell.x, y: cell.y }, ShotStatuses.MISS);
         });
 
         this.currentPlayer.addDestroyedShipsCount();
@@ -231,8 +233,8 @@ export class Game {
       player.reset();
     });
 
-    updateWinners(database.winners, winner.name);
-    database.rooms.delete(this.id);
+    updateWinners(this.database.winners, winner.name);
+    this.database.rooms.delete(this.id);
   }
 
   loseGame(playerId: number): void {

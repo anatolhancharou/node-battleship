@@ -4,8 +4,9 @@ import { getUniqueNumber } from './helpers';
 import { handleClientMessages } from './controllers';
 import { Database } from './models';
 import { closeSocket } from './services';
+import { WS_PORT } from './constants';
 
-export const webSocketServer = new WebSocketServer({ port: 3000 });
+export const webSocketServer = new WebSocketServer({ port: WS_PORT });
 export const database = new Database();
 
 webSocketServer.on('connection', (socket: GameWebSocket) => {

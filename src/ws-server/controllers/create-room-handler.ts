@@ -18,10 +18,10 @@ export const handleRoomCreation = (
     );
 
   if (player && !isPlayerInRoom) {
-    const newRoom = new Game(player, isSinglePlay);
+    const newRoom = new Game(player, database, isSinglePlay);
     rooms.set(newRoom.id, newRoom);
     updateRoom(rooms);
-  } else {
+  } else if (isPlayerInRoom) {
     console.log(CREATE_ROOM_ERROR);
   }
 };

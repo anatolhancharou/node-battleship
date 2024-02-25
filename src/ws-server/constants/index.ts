@@ -21,7 +21,6 @@ export enum ShotStatuses {
   MISS = 'miss',
   KILLED = 'killed',
   SHOT = 'shot',
-  OTHER = 'other',
 }
 
 export const MIN_CELL_COORDINATE = 0;
