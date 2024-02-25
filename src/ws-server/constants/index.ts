@@ -20,3 +20,4 @@ export enum ActionTypes {
 export const INVALID_PASSWORD_ERROR = 'Invalid password';
 export const CREATE_ROOM_ERROR =
   'It is not allowed for a user to play in several rooms at the same time!';
+export const ADD_USER_ERROR = 'The user is already in the room!';

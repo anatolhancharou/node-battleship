@@ -3,8 +3,9 @@ import { GameWebSocket, IoMessage } from '../types';
 import { ActionTypes } from '../constants';
 import { logMessage } from '../helpers';
 import { Database } from '../models/Database';
-import { handleLogin } from './login';
-import { handleRoomCreation } from './room-creation';
+import { handleLogin } from './login-handler';
+import { handleRoomCreation } from './create-room-handler';
+import { handleUserAddition } from './add-user-handler';
 
 export const handleClientMessages = (
   message: RawData,
@@ -31,6 +32,7 @@ export const handleClientMessages = (
     }
 
     case ActionTypes.ADD_USER_TO_ROOM: {
+      handleUserAddition(ws, data, database);
       break;
     }
 
