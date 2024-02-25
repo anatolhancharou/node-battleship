@@ -1,5 +1,10 @@
 import { RawData } from 'ws';
-import { GameWebSocket, IoMessage, ShipsRequestData } from '../types';
+import {
+  AttackData,
+  GameWebSocket,
+  IoMessage,
+  ShipsRequestData,
+} from '../types';
 import { ActionTypes } from '../constants';
 import { logMessage } from '../helpers';
 import { Database } from '../models/Database';
@@ -46,6 +51,9 @@ export const handleClientMessages = (
     }
 
     case ActionTypes.ATTACK: {
+      const { gameId, indexPlayer, x, y } = JSON.parse(data) as AttackData;
+      const currentGame = database.rooms.get(gameId);
+      currentGame?.attack(indexPlayer, { x, y });
       break;
     }
 

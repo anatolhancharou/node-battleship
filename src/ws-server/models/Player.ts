@@ -7,6 +7,8 @@ export class Player {
   socket?: GameWebSocket;
   originalShips: Ship[] = [];
   ships: ExtendedShip[] = [];
+  attacks: Position[] = [];
+  private destroyedShipsCount: number = 0;
 
   constructor(
     name: string,
@@ -37,5 +39,17 @@ export class Player {
     });
 
     this.ships = extendedShips;
+  }
+
+  addAttack(shot: Position): void {
+    this.attacks.push(shot);
+  }
+
+  addDestroyedShipsCount(): void {
+    this.destroyedShipsCount += 1;
+  }
+
+  getDestroyedShipsCount(): number {
+    return this.destroyedShipsCount;
   }
 }

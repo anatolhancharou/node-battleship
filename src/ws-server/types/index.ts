@@ -53,3 +53,10 @@ export interface ExtendedShip extends Ship {
   cells: Position[];
   left: number;
 }
+
+export interface AttackData {
+  gameId: number;
+  x: number;
+  y: number;
+  indexPlayer: number;
+}

@@ -17,6 +17,16 @@ export enum ActionTypes {
   SINGLE_PLAY = 'single_play',
 }
 
+export enum ShotStatuses {
+  MISS = 'miss',
+  KILLED = 'killed',
+  SHOT = 'shot',
+  OTHER = 'other',
+}
+
+export const MIN_CELL_COORDINATE = 0;
+export const MAX_CELL_COORDINATE = 9;
+
 export const INVALID_PASSWORD_ERROR = 'Invalid password';
 export const CREATE_ROOM_ERROR =
   'It is not allowed for a user to play in several rooms at the same time!';
