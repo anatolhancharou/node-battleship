@@ -1,0 +1,15 @@
+import { Game } from './Game';
+import { Winner } from '../types';
+import { Player } from './Player';
+
+export class Database {
+  players: Map<number, Player>;
+  rooms: Map<number, Game>;
+  winners: Winner[];
+
+  constructor() {
+    this.players = new Map();
+    this.rooms = new Map();
+    this.winners = [];
+  }
+}
