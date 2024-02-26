@@ -12,11 +12,17 @@ export const handleUserAddition = (
   const { indexRoom } = JSON.parse(data) as { indexRoom: number };
 
   const room = rooms.get(indexRoom);
-  const player = players.get(ws.index);
+  const currentPlayer = players.get(ws.index);
 
-  if (room && player) {
-    if (room.players[0]?.id !== player.id) {
-      room.addPlayer(player);
+  const existingRoomWithCurrentPlayer = Array.from(rooms.values()).find(
+    (room) => room.players.some((player) => player.id === currentPlayer?.id)
+  );
+
+  if (room && currentPlayer) {
+    if (room.players[0]?.id !== currentPlayer.id) {
+      room.addPlayer(currentPlayer);
+      existingRoomWithCurrentPlayer &&
+        rooms.delete(existingRoomWithCurrentPlayer.id);
       updateRoom(rooms);
     } else {
       console.log(ADD_USER_ERROR);
