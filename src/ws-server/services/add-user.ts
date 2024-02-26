@@ -1,10 +1,9 @@
 import { ADD_USER_ERROR } from '../constants';
 import { Database } from '../models';
 import { updateRooms } from './shared';
-import { GameWebSocket } from '../types';
 
 export const handleUserAddition = (
-  ws: GameWebSocket,
+  playerId: number,
   data: string,
   database: Database
 ): void => {
@@ -12,7 +11,7 @@ export const handleUserAddition = (
   const { indexRoom } = JSON.parse(data) as { indexRoom: number };
 
   const room = rooms.get(indexRoom);
-  const currentPlayer = players.get(ws.index);
+  const currentPlayer = players.get(playerId);
 
   const existingRoomWithCurrentPlayer = Array.from(rooms.values()).find(
     (room) => room.players.some((player) => player.id === currentPlayer?.id)

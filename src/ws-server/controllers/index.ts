@@ -12,6 +12,7 @@ import { Database } from '../models';
 import {
   handleLogin,
   handleRoomCreation,
+  handleSinglePlay,
   handleUserAddition,
 } from '../services';
 
@@ -30,17 +31,17 @@ export const handleClientMessages = (
     }
 
     case ActionTypes.CREATE_ROOM: {
-      handleRoomCreation(ws, database, false);
+      handleRoomCreation(ws.index, database);
       break;
     }
 
     case ActionTypes.SINGLE_PLAY: {
-      handleRoomCreation(ws, database, true);
+      handleSinglePlay(ws.index, database);
       break;
     }
 
     case ActionTypes.ADD_USER_TO_ROOM: {
-      handleUserAddition(ws, data, database);
+      handleUserAddition(ws.index, data, database);
       break;
     }
 
