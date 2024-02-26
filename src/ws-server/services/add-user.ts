@@ -1,6 +1,6 @@
 import { ADD_USER_ERROR } from '../constants';
 import { Database } from '../models';
-import { updateRoom } from '../services';
+import { updateRooms } from './shared';
 import { GameWebSocket } from '../types';
 
 export const handleUserAddition = (
@@ -23,7 +23,7 @@ export const handleUserAddition = (
       room.addPlayer(currentPlayer);
       existingRoomWithCurrentPlayer &&
         rooms.delete(existingRoomWithCurrentPlayer.id);
-      updateRoom(rooms);
+      updateRooms(rooms);
     } else {
       console.log(ADD_USER_ERROR);
     }

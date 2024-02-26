@@ -8,10 +8,12 @@ import {
 } from '../types';
 import { ActionTypes } from '../constants';
 import { logMessage } from '../helpers';
-import { Database } from '../models/Database';
-import { handleLogin } from './login-handler';
-import { handleRoomCreation } from './create-room-handler';
-import { handleUserAddition } from './add-user-handler';
+import { Database } from '../models';
+import {
+  handleLogin,
+  handleRoomCreation,
+  handleUserAddition,
+} from '../services';
 
 export const handleClientMessages = (
   message: RawData,

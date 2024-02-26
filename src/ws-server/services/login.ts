@@ -2,7 +2,7 @@ import WebSocket from 'ws';
 import { Database, Player } from '../models';
 import { GameWebSocket, LoginData } from '../types';
 import { ActionTypes, INVALID_PASSWORD_ERROR } from '../constants';
-import { updateRoom, updateWinners } from '../services';
+import { updateRooms, updateWinners } from './shared';
 import { sendMessage } from '../helpers';
 
 export const handleLogin = (
@@ -22,12 +22,9 @@ export const handleLogin = (
   isCredentialsValid &&
     players.set(ws.index, new Player(name, password, ws.index, ws));
 
-  if (
-    currentUser &&
-    isCredentialsValid &&
-    currentUser.socket?.readyState === WebSocket.OPEN
-  ) {
-    currentUser.socket?.close();
+  if (currentUser && isCredentialsValid) {
+    currentUser.socket?.readyState === WebSocket.OPEN &&
+      currentUser.socket?.close();
     players.delete(currentUser.id);
   }
 
@@ -50,6 +47,6 @@ export const handleLogin = (
   });
 
   sendMessage(ws, responseData);
-  updateRoom(rooms);
+  updateRooms(rooms);
   updateWinners(winners);
 };
